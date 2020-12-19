@@ -1,0 +1,13 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Remote USB Selector</title>
+</head>
+<frameset rows="18,*" frameborder="0">
+	<frame name="top" src="selector.php">
+	<frame name="body" src="disconnect.html">
+</frame>
+<body>
+</body>
+</html>
