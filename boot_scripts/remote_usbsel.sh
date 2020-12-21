@@ -74,6 +74,7 @@ if [ "$out_cut" = "/" ]; then
     echo "Expand area of SD-Card."
     raspi-config nonint do_expand_rootfs > /sda1/_rus_resize.txt
     rm  /sda1/rus_resize.txt
+    shut_flag=1
 fi
 
 # USBメモリに rus_ifconfig.txt がある場合は、ifconfigの結果を格納する
