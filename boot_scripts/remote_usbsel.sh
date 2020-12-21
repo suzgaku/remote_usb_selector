@@ -87,6 +87,20 @@ if [ "$out_cut" = "/" ]; then
     shut_flag=1
 fi
 
+# USBメモリに rus_update.txt がある場合は、アップデートを行う
+out=`ls /sda1/rus_update.txt `
+out_cut=`echo ${out} | cut -c 1-1 `
+if [ "$out_cut" = "/" ]; then
+    echo "Update Remote USB Selector software."
+    cd /tmp
+    rm main.zip
+    wget https://github.com/suzgaku/remote_usb_selector/archive/main.zip
+    unzip -o main.zip
+    \cp -f remote_usb_selector-main/boot_scripts/remote_usbsel_update.sh /usr/local/bin/
+    mv /sda1/rus_update.txt /sda1/_rus_update.txt
+    update_flag=1
+fi
+
 # USBメモリをumount
 umount /dev/sda1
 
