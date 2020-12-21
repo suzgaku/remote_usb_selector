@@ -16,7 +16,7 @@ shut_flag=0
 
 # USBメモリ(/dev/sda1)が見つかるまで待ち。ない場合は終了。
 echo "Detecting USB-memory..."
-for i in `seq 1 10`
+for i in `seq 1 20`
 do
     out=`ls /dev/sda1 `
     if [ "$out" = "/dev/sda1" ]; then

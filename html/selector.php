@@ -12,20 +12,24 @@
 </head>
 <?php
 
+function http_open_window($page_name, $window)
+{
+	?><script type="text/javascript">window.open("<?php echo $page_name; ?>", "<?php echo $window; ?>", "");</script><?php
+}
+
 if (($_GET['power-off'] == 'power-off') || ($_POST['power-off'] == 'power-off')) {
-	?><script type="text/javascript">window.open("shutdown.html", "body", "");</script><?php
+	http_open_window("shutdown.html", "body");
 	system("sudo /sbin/shutdown -h now");
 
 	exit;
 }
 
 exec("cat /sys/class/gpio/gpio6/value", $out, $ret); //Select
-
 $select_now = (int)$out[0];
 
 if ((($_GET['s'] == 'umount') || ($_POST['s'] == 'umount')) && ($select_now == 0)) {
 	$sel = 'mount';
-	?><script type="text/javascript">window.open("disconnect.html", "body", "");</script><?php
+	http_open_window("shutdown.html", "body");
 
 	exec("sync");
 	exec("umount /dev/sda1");
@@ -37,34 +41,25 @@ if ((($_GET['s'] == 'umount') || ($_POST['s'] == 'umount')) && ($select_now == 0
 	exec("echo 1 > /sys/class/gpio/gpio5/value"); // Enable ON
 
 } elseif ((($_GET['s'] == 'mount') || ($_POST['s'] == 'mount')) && ($select_now == 1)) {
-//	?><script type="text/javascript">window.open("waiting.html", "body", "");</script><?php
 
 	exec("echo 0 > /sys/class/gpio/gpio5/value"); // Enable OFF
 	exec("echo 0 > /sys/class/gpio/gpio6/value"); // Select USB#0
 	exec("echo 1 > /sys/class/gpio/gpio5/value"); // Enable ON
 
 	usleep(3000000); // 3.0sec
-/*
-	for ($i = 0; $i < 30; $i++) {
-		exec("ls /dev/sda1", $out, $ret);
-		if ($out[0] == "/dev/sda1") {
-			break;
-		}
-		usleep(500000); // 500msec
-	}
-*/
+
 	exec("mount /dev/sda1");
 
-	?><script type="text/javascript">window.open("elfinder.html", "body", "");</script><?php
+	http_open_window("elfinder.html", "body");
 	$sel = 'umount';
 } else {
 	if ($select_now == 1) {
 		$sel = 'mount';
-		?><script type="text/javascript">window.open("disconnect.html", "body", "");</script><?php
+		http_open_window("disconnect.html", "body");
 
 	} else {
 		$sel = 'umount';
-		?><script type="text/javascript">window.open("elfinder.html", "body", "");</script><?php
+		http_open_window("elfinder.html", "body");
 	}
 }
 ?>
