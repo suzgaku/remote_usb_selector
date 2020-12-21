@@ -31,6 +31,8 @@ if [ "${i}" = 20 ]; then
     exit 1
 fi
 
+echo "Detected."
+
 # オリジナルのWIFI設定ファイルを保存
 out=`ls /etc/wpa_supplicant/org_wpa_supplicant.conf `
 out_cut=`echo ${out} | cut -c 1-1 `
@@ -65,6 +67,14 @@ if [ "$out_cut" = "/" ]; then
         shut_flag=1
     fi
 fi
+# USBメモリに rus_resize.txt がある場合は、sd-cardの容量を拡張する
+out=`ls /sda1/rus_resize.txt `
+out_cut=`echo ${out} | cut -c 1-1 `
+if [ "$out_cut" = "/" ]; then
+    echo "Expand area of SD-Card."
+    raspi-config nonint do_expand_rootfs > /sda1/_rus_resize.txt
+    rm  /sda1/rus_resize.txt
+fi
 
 # USBメモリに rus_ifconfig.txt がある場合は、ifconfigの結果を格納する
 out=`ls /sda1/rus_ifconfig.txt `
@@ -94,4 +104,5 @@ sleep 1
 echo 1 > /sys/class/gpio/gpio6/value
 echo 1 > /sys/class/gpio/gpio5/value
 
+echo "Finished "
 exit 0
