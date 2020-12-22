@@ -98,7 +98,6 @@ if [ "$out_cut" = "/" ]; then
     unzip -o main.zip
     \cp -f remote_usb_selector-main/boot_scripts/remote_usbsel_update.sh /usr/local/bin/
     mv /sda1/rus_update.txt /sda1/_rus_update.txt
-    update_flag=1
 fi
 
 # USBメモリをumount
@@ -119,5 +118,5 @@ sleep 1
 echo 1 > /sys/class/gpio/gpio6/value
 echo 1 > /sys/class/gpio/gpio5/value
 
-echo "Finished "
+echo "Finished Remote USB Selector auto setting."
 exit 0
