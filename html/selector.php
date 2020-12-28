@@ -29,7 +29,7 @@ $select_now = (int)$out[0];
 
 if ((($_GET['s'] == 'umount') || ($_POST['s'] == 'umount')) && ($select_now == 0)) {
 	$sel = 'mount';
-	http_open_window("shutdown.html", "body");
+	http_open_window("disconnect.html", "body");
 
 	exec("sync");
 	exec("umount /dev/sda1");
